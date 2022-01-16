@@ -37,3 +37,27 @@
 .grow {
   flex: 1;
 }
+
+.raw-html {
+  white-space: pre-wrap
+}
+
+.header {
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header .title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+}
+
+.links a + a {
+  margin-inline-start: 5px;
+  padding-inline-start: 5px;
+  border-left: 1px solid #999;
+}

@@ -65,6 +65,18 @@ export default function Index() {
         fetcher.data?.css ?? initialCss
       }`}</style>
 
+      <div className="row header">
+        <div className="title">
+          <h3>Markdown Style Customizer</h3>
+          Easily customize your markdown using SASS or CSS
+        </div>
+        <div className="links">
+          <a href="https://github.com/heyitsaamir/custom-markdown-styler">
+            Github
+          </a>
+          <a href="https://aamirj.com">Aamir Jawaid</a>
+        </div>
+      </div>
       <div className="row">
         <input
           type="checkbox"
@@ -72,7 +84,7 @@ export default function Index() {
             setColumnsToShow((prev) => ({ ...prev, markdown: !prev.markdown }))
           }
           id="show_markdown"
-          checked={columnsToShow.markdown}
+          defaultChecked={columnsToShow.markdown}
         />
         <label htmlFor="show_markdown">Show Markdown</label>
 
@@ -82,7 +94,7 @@ export default function Index() {
             setColumnsToShow((prev) => ({ ...prev, htmlRaw: !prev.htmlRaw }))
           }
           id="show_htmlRaw"
-          checked={columnsToShow.htmlRaw}
+          defaultChecked={columnsToShow.htmlRaw}
         />
         <label htmlFor="show_htmlRaw">Show Raw Html</label>
 
@@ -92,7 +104,7 @@ export default function Index() {
             setColumnsToShow((prev) => ({ ...prev, css: !prev.css }))
           }
           id="show_css"
-          checked={columnsToShow.css}
+          defaultChecked={columnsToShow.css}
         />
         <label htmlFor="show_css">Show css</label>
       </div>
@@ -119,15 +131,13 @@ export default function Index() {
           </div>
         )}
         {columnsToShow.htmlRaw && (
-          <div className="column grow">
-            <div placeholder="Enter your css here">
-              {fetcherMarkdown.data?.markdown ?? initialMarkdownAsHtml}
-            </div>
+          <div className="column grow raw-html scrollable">
+            <pre>{fetcherMarkdown.data?.markdown ?? initialMarkdownAsHtml}</pre>
           </div>
         )}
         {columnsToShow.css && (
           <div className="column grow">
-            <button onClick={updateCss}>Update Css</button>
+            <button onClick={updateCss}>Update CSS (or SASS)</button>
             <textarea
               placeholder="Enter your css here"
               ref={cssInputRef}
