@@ -1,0 +1,39 @@
+.layout {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 10px;
+  gap: 10px;
+  height: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.container textarea {
+  flex: 1;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  gap: 10px;
+}
+
+.scrollable {
+  overflow: auto;
+}
+
+.grow {
+  flex: 1;
+}
