@@ -13,6 +13,7 @@
     "@remix-run/netlify": "^1.1.1",
     "@remix-run/react": "^1.1.1",
     "dompurify": "^2.3.4",
+    "fs": "^0.0.1-security",
     "jsdom": "^19.0.0",
     "marked": "^4.0.9",
     "pretty": "^2.0.0",
