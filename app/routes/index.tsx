@@ -12,6 +12,34 @@ export const links = () => {
   return [{ rel: "stylesheet", href: baseStyles }];
 };
 
+const BackgroundInput = ({
+  initialColor,
+  onUpdate,
+  id,
+}: {
+  initialColor: string;
+  onUpdate: (newColor: string) => void;
+  id: string;
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <>
+      <input type="text" defaultValue={initialColor} id={id} ref={inputRef} />
+      <button
+        id={id}
+        onClick={() => {
+          if (!inputRef.current?.value) return;
+          console.log(inputRef.current.value);
+          onUpdate(inputRef.current.value);
+        }}
+      >
+        ✓
+      </button>
+    </>
+  );
+};
+
 export default function Index() {
   const {
     markdown: initialMarkdown,
@@ -23,11 +51,12 @@ export default function Index() {
   const [editingMarkdown, setEditingMarkdown] = useState(false);
   const cssInputRef = useRef<HTMLTextAreaElement | null>(null);
   const markdownInputRef = useRef<HTMLTextAreaElement | null>(null);
-  const [columnsToShow, setColumnsToShow] = useState<{
+  const [settings, updateSettings] = useState<{
     markdown: boolean;
     css: boolean;
     htmlRaw: boolean;
-  }>({ markdown: true, css: true, htmlRaw: false });
+    backgroundColor: string;
+  }>({ markdown: true, css: true, htmlRaw: false, backgroundColor: "#fefefe" });
 
   const fetcher = useFetcher();
   const fetcherMarkdown = useFetcher();
@@ -60,7 +89,10 @@ export default function Index() {
   }, [fetcher, editingMarkdown, setEditingMarkdown]);
 
   return (
-    <main className="container">
+    <main
+      className="container"
+      style={{ backgroundColor: settings.backgroundColor }}
+    >
       <style type="text/css" scoped>{`${
         fetcher.data?.css ?? initialCss
       }`}</style>
@@ -77,39 +109,48 @@ export default function Index() {
           <a href="https://aamirj.com">Aamir Jawaid</a>
         </div>
       </div>
-      <div className="row">
+      <div className="row toolbar">
         <input
           type="checkbox"
           onClick={() =>
-            setColumnsToShow((prev) => ({ ...prev, markdown: !prev.markdown }))
+            updateSettings((prev) => ({ ...prev, markdown: !prev.markdown }))
           }
           id="show_markdown"
-          defaultChecked={columnsToShow.markdown}
+          defaultChecked={settings.markdown}
         />
         <label htmlFor="show_markdown">Show Markdown</label>
 
         <input
           type="checkbox"
           onClick={() =>
-            setColumnsToShow((prev) => ({ ...prev, htmlRaw: !prev.htmlRaw }))
+            updateSettings((prev) => ({ ...prev, htmlRaw: !prev.htmlRaw }))
           }
           id="show_htmlRaw"
-          defaultChecked={columnsToShow.htmlRaw}
+          defaultChecked={settings.htmlRaw}
         />
         <label htmlFor="show_htmlRaw">Show Raw Html</label>
 
         <input
           type="checkbox"
           onClick={() =>
-            setColumnsToShow((prev) => ({ ...prev, css: !prev.css }))
+            updateSettings((prev) => ({ ...prev, css: !prev.css }))
           }
           id="show_css"
-          defaultChecked={columnsToShow.css}
+          defaultChecked={settings.css}
         />
         <label htmlFor="show_css">Show css</label>
+
+        <BackgroundInput
+          initialColor={settings.backgroundColor}
+          onUpdate={(color) =>
+            updateSettings((prev) => ({ ...prev, backgroundColor: color }))
+          }
+          id="background-color"
+        />
+        <label htmlFor="background-color">Update background color</label>
       </div>
       <div className="row scrollable grow">
-        {columnsToShow.markdown && (
+        {settings.markdown && (
           <div className="column grow">
             <button onClick={updateMarkdown}>Edit Markdown</button>
             {editingMarkdown ? (
@@ -130,12 +171,12 @@ export default function Index() {
             )}
           </div>
         )}
-        {columnsToShow.htmlRaw && (
+        {settings.htmlRaw && (
           <div className="column grow raw-html scrollable">
             <pre>{fetcherMarkdown.data?.markdown ?? initialMarkdownAsHtml}</pre>
           </div>
         )}
-        {columnsToShow.css && (
+        {settings.css && (
           <div className="column grow">
             <button onClick={updateCss}>Update CSS (or SASS)</button>
             <textarea

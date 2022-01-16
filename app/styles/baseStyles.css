@@ -7,8 +7,6 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 10px;
-  gap: 10px;
   height: 100%;
 }
 
@@ -47,6 +45,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  background-color: #DBF9F4;
+  border-bottom: 1px solid #B07BAC;
+  padding: 5px;
+  padding-block-end: 10px;
+  padding-block-start: 10px;
 }
 
 .header .title {
@@ -60,4 +63,19 @@
   margin-inline-start: 5px;
   padding-inline-start: 5px;
   border-left: 1px solid #999;
+}
+
+.toolbar {
+  align-items: center;
+  background-color: #FBF9FF;
+  padding: 5px;
+  margin-block-end: 10px;
+}
+
+.toolbar input + label {
+  margin-inline-start: -8px;
+}
+
+.markdown {
+  padding: 10px;
 }
